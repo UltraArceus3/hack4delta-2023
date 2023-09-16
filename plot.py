@@ -17,9 +17,9 @@ for file in os.listdir("./data/plane_data"):
         #print(list(df['trace']))
         #df.update()
         fig.add_trace(go.Scattermapbox(
-            lon = df['trace'].apply(lambda x: x[2]), #if x[2] > -129 and x[2] < -64 else None
-            lat = df['trace'].apply(lambda x: x[1]), #if x[1] > 22 and x[1] < 49 else None
-            mode = 'markers+lines',
+            lon = df['trace'].apply(lambda x: x[2] if x[2] > -129 and x[2] < -64 else None), #
+            lat = df['trace'].apply(lambda x: x[1] if x[1] > 22 and x[1] < 49 else None), #
+            mode = 'lines',
             line = {'width': 1},
             name = file
         ))
@@ -28,7 +28,7 @@ for file in os.listdir("./data/plane_data"):
 
     print(f"{i}", end = "\r")
 
-    if i > 1000:
+    if i > 500:
         break
 
 
