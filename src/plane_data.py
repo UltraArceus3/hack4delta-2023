@@ -23,7 +23,7 @@ def get_data(start_date, end_date):
             df = pd.DataFrame(trace_resp.json())
             
             file_date = date.strftime("%Y-%m-%d")
-            df.to_csv(f"data/plane_data/{trace_name}-{file_date}.csv")
+            df.to_csv(f"../data/plane_data/{trace_name}-{file_date}.csv")
 
 # start_date = datetime(2023, 9, 1)
 # end_date = datetime(2023, 9, 2)
@@ -32,11 +32,11 @@ def get_data(start_date, end_date):
 def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -64)}, size_limit=-1):
     l = []
     i = 0
-    for file in os.listdir("./data/plane_data"):
-        print(f"{i}", end="\r")
+    for file in os.listdir("../data/plane_data"):
+
         if file.endswith(".csv"):
             d = {"flight_id": [], "latitude": [], "longitude": [], "departure": [], "arrival": []}
-            df = pd.read_csv(f"./data/plane_data/{file}", converters={'trace': eval})
+            df = pd.read_csv(f"../data/plane_data/{file}", converters={'trace': eval})
             
             id = df['icao'].iloc[0]
             if len(set(df['icao'])) != 1:
@@ -60,11 +60,13 @@ def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -
             d['arrival'].append(arrival)
             l.append(d)
 
+            print(f"{i}", end="\r")
+
         if size_limit > 0 and i >= size_limit:
             break
 
     df = pd.DataFrame(d)
-    df.to_csv("./data/dataset.tsv", sep = "\t")
+    df.to_csv("../data/dataset.tsv", sep = "\t")
             
 start_date = datetime(2023, 9, 1, 0, 0, 0)
 create_dataset(start_date, size_limit=100)

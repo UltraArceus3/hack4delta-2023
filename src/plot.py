@@ -12,11 +12,11 @@ fig = go.Figure(go.Densitymapbox())
 def flightmap():
     fig = go.Figure(go.Scattergeo())
     i = 0
-    for file in os.listdir("./data/plane_data"):
+    for file in os.listdir("../data/plane_data"):
         if file.endswith(".csv"):
             i += 1
             print(f"{i}", end="\r")
-            df = pd.read_csv(f"./data/plane_data/{file}", converters={'trace': eval})
+            df = pd.read_csv(f"../data/plane_data/{file}", converters={'trace': eval})
             fig.add_trace(go.Scattergeo(
                 lon = df['trace'].apply(lambda x: x[2] if x[2] > -129 and x[2] < -64 else None),
                 lat = df['trace'].apply(lambda x: x[1] if x[1] > 22 and x[1] < 49 else None),
@@ -37,11 +37,11 @@ def heatmap():
     i = 0
     lon = []
     lat = []
-    for file in os.listdir("./data/plane_data"):
+    for file in os.listdir("../data/plane_data"):
         if file.endswith(".csv"):
             i += 1
             print(f"{i}", end="\r")
-            df = pd.read_csv(f"./data/plane_data/{file}", converters={'trace': eval})
+            df = pd.read_csv(f"../data/plane_data/{file}", converters={'trace': eval})
 
             lon += df['trace'].apply(lambda x: x[2] if x[2] > -129 and x[2] < -64 else None).tolist()
             lat += df['trace'].apply(lambda x: x[1] if x[1] > 22 and x[1] < 49 else None).tolist()
@@ -68,7 +68,7 @@ def countymap():
         countiesjson = json.load(response)
 
     
-    counties = pd.read_csv("./data/wildfire_risk_dataset.csv", converters={'STCOFIPS': str})
+    counties = pd.read_csv("../data/wildfire_risk_dataset.csv", converters={'STCOFIPS': str})
     ca_counties = counties[counties['STATE'] == 'California']
     fig = go.Figure(go.Choroplethmapbox(geojson=countiesjson,
                     locations=ca_counties['STCOFIPS'], z=ca_counties['WFIR_RISKS'], colorscale="Viridis", zmin=min(counties['WFIR_RISKS']), zmax=100,
@@ -76,20 +76,21 @@ def countymap():
 
     i = 0
 
-    for file in os.listdir("./data/plane_data"):
+    for file in os.listdir("../data/plane_data"):
         if file.endswith(".csv"):
             i += 1
             print(f"{i}", end="\r")
-            df = pd.read_csv(f"./data/plane_data/{file}", converters={'trace': eval})
+            df = pd.read_csv(f"../data/plane_data/{file}", converters={'trace': eval})
             fig.add_trace(go.Scattermapbox(
                 lon = df['trace'].apply(lambda x: x[2] if x[2] > -129 and x[2] < -64 else None),
                 lat = df['trace'].apply(lambda x: x[1] if x[1] > 22 and x[1] < 49 else None),
                 mode = 'lines',
-                line = {'width': 1},
+                fill="toself",
+                line = {'width': 5},
                 name = file
             ))
 
-        if i > 1000:
+        if i > 100:
             break
     
     fig.update_layout(mapbox = {'style': "stamen-terrain"})
