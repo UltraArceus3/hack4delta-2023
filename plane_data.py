@@ -33,11 +33,14 @@ def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -
     l = []
     i = 0
     for file in os.listdir("./data/plane_data"):
+        print(f"{i}", end="\r")
         if file.endswith(".csv"):
-            d = {}
+            d = {"flight_id": [], "latitude": [], "longitude": [], "departure": [], "arrival": []}
             df = pd.read_csv(f"./data/plane_data/{file}", converters={'trace': eval})
             
-            id = df['icao']
+            id = df['icao'].iloc[0]
+            if len(set(df['icao'])) != 1:
+                print("Multiple IDs")
             lat = df['trace'].apply(lambda x: x[1])
             lat_inrange = lat.apply(lambda x: x > bounding_box['lat'][0] and x < bounding_box['lat'][1])
             lon = df['trace'].apply(lambda x: x[2])
@@ -50,18 +53,18 @@ def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -
             depart = start_date + timedelta(seconds=df.iloc[0]['trace'][0])
             arrival = start_date + timedelta(seconds=df.iloc[-1]['trace'][0])
 
-            d['flight_id'] = id
-            d['latitude'] = lat
-            d['longitude'] = lon
-            d['departure'] = depart
-            d['arrival'] = arrival
+            d['flight_id'].append(id)
+            d['latitude'].append(list(lat))
+            d['longitude'].append(list(lon))
+            d['departure'].append(depart)
+            d['arrival'].append(arrival)
             l.append(d)
 
         if size_limit > 0 and i >= size_limit:
             break
 
     df = pd.DataFrame(d)
-    df.to_csv("./data/dataset.csv")
+    df.to_csv("./data/dataset.tsv", sep = "\t")
             
 start_date = datetime(2023, 9, 1, 0, 0, 0)
 create_dataset(start_date, size_limit=100)
