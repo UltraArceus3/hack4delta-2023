@@ -5,11 +5,11 @@ Repository for Firefly, our project for Hack4Delta 2023.
 ## Contributors
 Rany Kamel (**[UltraArceus3](https://github.com/UltraArceus3)**) - [LinkedIn](https://www.linkedin.com/in/ranyk/)
 
-Vihaan Shah (**[ShahhhVihaan](https://github.com/ShahhhVihaan)**) - [LinkedIn](linkedin.com/in/shahvihaan)
+Vihaan Shah (**[ShahhhVihaan](https://github.com/ShahhhVihaan)**) - [LinkedIn](https://www.linkedin.com/in/shahvihaan)
 
-Kalin Kochnev ([**kalinkochnev**](https://github.com/kalinkochnev)) - [LinkedIn](linkedin.com/in/kalinkochnev)
+Kalin Kochnev ([**kalinkochnev**](https://github.com/kalinkochnev)) - [LinkedIn](https://www.linkedin.com/in/kalinkochnev)
 
-Arav Parikh (**[aravp21](https://github.com/aravp21)**) - [LinkedIn](linkedin.com/in/arav-parikh)
+Arav Parikh (**[aravp21](https://github.com/aravp21)**) - [LinkedIn](https://www.linkedin.com/in/arav-parikh)
 
 
 ## Project Description
