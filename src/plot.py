@@ -76,7 +76,7 @@ def countymap():
 
     i = 0
 
-    for file in os.listdir("../data/plane_data"):
+    """     for file in os.listdir("../data/plane_data"):
         if file.endswith(".csv"):
             i += 1
             print(f"{i}", end="\r")
@@ -90,9 +90,42 @@ def countymap():
                 name = file
             ))
 
-        if i > 100:
-            break
+        if i > 500:
+            break """
+    print("Loading data...")
+    #df = pd.read_csv("../data/cali-dataset.tsv", sep = "\t", converters={'latitude': eval, 'longitude': eval})
+    print("Loaded data")
+
+    lon = []
+    lat = []
+
+    """ for _, row in df.iterrows():
+        i += 1
+        print(f"{i}", end="\r")
+        for o in range(len(row["longitude"])):
+            lon.append(row["longitude"][o])
+            lat.append(row["latitude"][o])
+            if o < len(row["longitude"]) - 1:
+                    lon.append(row["longitude"][o + 1])
+                    lat.append(row["latitude"][o + 1])
+            lon.append(None)
+            lat.append(None)
+
+        if i > 1000:
+            break """
+
+
+    fig.add_trace(go.Scattermapbox(
+            lon = lon,
+            lat = lat,
+            mode = 'lines',
+            line = {'width': 5, "color": "blue"},
+            opacity = 0.1
+        ))
     
+
+
+
     fig.update_layout(mapbox = {'style': "stamen-terrain"})
     fig.update_layout(mapbox_style="carto-positron",
                   mapbox_zoom=3, mapbox_center = {"lat": 37.0902, "lon": -95.7129})

@@ -29,13 +29,15 @@ def get_data(start_date, end_date):
 # end_date = datetime(2023, 9, 2)
 # create_csvs(start_date, end_date)
 
-def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -64)}, size_limit=-1):
+def create_dataset(start_date, file_name = "../data/cali-dataset", bounding_box = {"lat": (22, 49), "long": (-129, -64)}, size_limit=-1):
     l = []
     i = 0
+    j = 0
+    d = {"flight_id": [], "latitude": [], "longitude": [], "departure": [], "arrival": []}
     for file in os.listdir("../data/plane_data"):
-
+        
         if file.endswith(".csv"):
-            d = {"flight_id": [], "latitude": [], "longitude": [], "departure": [], "arrival": []}
+            j += 1
             df = pd.read_csv(f"../data/plane_data/{file}", converters={'trace': eval})
             
             id = df['icao'].iloc[0]
@@ -60,13 +62,20 @@ def create_dataset(start_date, bounding_box = {"lat": (22, 49), "long": (-129, -
             d['arrival'].append(arrival)
             l.append(d)
 
-            print(f"{i}", end="\r")
+            print(f"{i} / {j}", end="\r")
 
         if size_limit > 0 and i >= size_limit:
             break
+    
+    print()
+
 
     df = pd.DataFrame(d)
-    df.to_csv("../data/dataset.tsv", sep = "\t")
+    df.to_csv(f"{file_name}.tsv", sep = "\t")
             
 start_date = datetime(2023, 9, 1, 0, 0, 0)
-create_dataset(start_date, size_limit=100)
+
+# Cali Boundaries
+bounding_box = {"lat": (32, 42), "long": (-124, -114)}
+
+create_dataset(start_date, file_name="../data/cali-dataset", size_limit=-1, bounding_box=bounding_box)
